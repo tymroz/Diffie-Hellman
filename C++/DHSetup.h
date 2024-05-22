@@ -66,19 +66,18 @@ public:
         std::cout << "Generator: " << generator << std::endl;
     }
 
-    T getGenerator() const {
+    T getGenerator(){
         return this->generator;
     }
 
-    T power(T a, unsigned long b) const {
-        T result = 1;
-        T base = a;
-        while (b > 0) {
-            if (b % 2 == 1) {
-                result *= base;
+    T power(T a, unsigned long b){
+        T result(1);
+        while(b > 0){
+            if(b % 2 == 1){
+                result = (result * a);
             }
-            base *= base;
-            b /= 2;
+            a = (a * a);
+            b = b / 2; 
         }
         return result;
     }

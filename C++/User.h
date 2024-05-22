@@ -22,7 +22,7 @@ public:
         std::cout << "Secret: " << secret << std::endl;
     }
 
-    T getPublicKey() const {
+    T getPublicKey(){
         return setup.power(setup.getGenerator(), secret);
     }
 
@@ -36,7 +36,7 @@ public:
         }
     }
 
-    T getEncryptionKey() const {
+    T getEncryptionKey(){
         if (!keySet) {
             std::cerr << "Encryption key not set.\n";
             return T();
@@ -44,7 +44,7 @@ public:
         return encryptionKey;
     }
 
-    T encrypt(T m) const {
+    T encrypt(T m){
         if (!keySet) {
             std::cerr << "Encryption key not set.\n";
             return T();
@@ -52,7 +52,7 @@ public:
         return m *= encryptionKey;
     }
 
-    T decrypt(T c) const {
+    T decrypt(T c){
         if (!keySet) {
             std::cerr << "Encryption key not set.\n";
             return T();

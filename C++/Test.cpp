@@ -29,6 +29,8 @@ int main() {
         std::cerr << "Keys do not match. Key1: " << key1 << ", Key2: " << key2 << std::endl;
     }
 
+    std::cout << setup.power(GaloisField(123456789), 89);
+
 /*    //GaloisField message1 = GaloisField(2345);
     //GaloisField message2 = GaloisField(167);  
 
