@@ -3,63 +3,80 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <vector>
 #include "GaloisField.h"
 
 template <class T>
 class DHSetup{
 private:
     T generator;
-
+    
     bool isGenerator(const T& a, const std::vector<unsigned long>& primeFactors) const {
+        unsigned long p = T::getCharacteristic();
         for (unsigned long q : primeFactors) {
-            if (power(a, (T::getCharacteristic() - 1) / q) == T(1))
+            if (power(a, (p - 1) / q) == T(1))
                 return false;
         }
         return true;
     }
 
-public:
-    DHSetup() {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        
-        unsigned long characteristic = T::getCharacteristic();
-        
-        unsigned long pMinusOne = characteristic - 1;
-        std::vector<unsigned long> primeFactors;
-        for (unsigned long i = 2; i * i <= pMinusOne; ++i) {
-            if (pMinusOne % i == 0) {
-                primeFactors.push_back(i);
-                while (pMinusOne % i == 0)
-                    pMinusOne /= i;
+    bool isPrime(unsigned long n) {
+        if (n <= 1) return false;
+        if (n <= 3) return true;
+        if (n % 2 == 0 || n % 3 == 0) return false;
+        for (int i = 5; i * i <= n; i += 6) {
+            if (n % i == 0 || n % (i + 2) == 0) return false;
+        }
+        return true;
+    }
+
+    std::vector<unsigned long> findprimes(unsigned long n) {
+        std::vector<unsigned long> divisors;
+        for (int i = 1; i * i <= n; ++i) {
+            if (n % i == 0 && isPrime(i)) {
+                divisors.push_back(i);
+                if (i != n / i) {
+                    divisors.push_back(n / i);
+                }
             }
         }
-        if (pMinusOne > 1)
-            primeFactors.push_back(pMinusOne);
+        return divisors;
+    }
+
+
+public:
+    DHSetup() {
+        unsigned long characteristic = T::getCharacteristic();
+        std::cout << characteristic << std::endl;
         
+        std::vector<unsigned long> primes = findprimes(characteristic - 1); 
+
+        std::random_device rd;
+        std::mt19937 gen(rd());
         unsigned long generatorVal;
         do {
             generatorVal = std::uniform_int_distribution<unsigned long>(2, characteristic - 1)(gen);
             generator = T(generatorVal);
-        } while (!isGenerator(generator, primeFactors));
+        } while (!isGenerator(generator, primes));
         
-        //std::cout << generator << std::endl;
+        std::cout << "Generator: " << generator << std::endl;
     }
 
     T getGenerator() const {
         return generator;
     }
 
-    T power(T a, unsigned b) const {
-        T result = T(1);
+    T power(T a, unsigned long b) const {
+        unsigned long result = 1;
+        unsigned long base = a.getValue();
         while (b > 0) {
-            if (b % 2 == 0) {
-                result *= a;
+            if (b % 2 == 1) {
+                result *= base;
             }
-            a *= a;
+            base *= base;
             b /= 2;
         }
-        return result;
+        return T(result);
     }
 };
 

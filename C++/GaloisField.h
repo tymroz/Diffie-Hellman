@@ -6,9 +6,9 @@
 
 class GaloisField {
 private:
-    static const unsigned characteristic = 1234567891;
+    static const unsigned long characteristic = 1234567891;
 
-    unsigned value;
+    unsigned long value;
 
     int mod(int a, int b) const {
         return (a % b + b) % b;
