@@ -67,8 +67,8 @@ public:
     }
 
     T power(T a, unsigned long b) const {
-        unsigned long result = 1;
-        unsigned long base = a.getValue();
+        T result = T(1);
+        T base = a;
         while (b > 0) {
             if (b % 2 == 1) {
                 result *= base;
@@ -76,7 +76,7 @@ public:
             base *= base;
             b /= 2;
         }
-        return T(result);
+        return result;
     }
 };
 
