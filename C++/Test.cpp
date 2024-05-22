@@ -29,10 +29,12 @@ int main() {
         std::cerr << "Keys do not match. Key1: " << key1 << ", Key2: " << key2 << std::endl;
     }
 
-    std::cout << setup.power(GaloisField(123456789), 89);
+    //std::cout << setup.power(GaloisField(123456789), 89);
 
-/*    //GaloisField message1 = GaloisField(2345);
-    //GaloisField message2 = GaloisField(167);  
+    GaloisField message1 = GaloisField(2345);
+    GaloisField message2 = GaloisField(167);  
+    std::cout << "message1: " << message1 << "\n";
+    std::cout << "message2: " << message2 << "\n";
 
     GaloisField encrypted1 = alice.encrypt(message1);
     GaloisField encrypted2 = bob.encrypt(message2);
@@ -43,6 +45,6 @@ int main() {
     GaloisField decrypted2 = alice.decrypt(encrypted2);
     std::cout << "decrypted1: " << decrypted1 << "\n";
     std::cout << "decrypted2: " << decrypted2 << "\n";
-*/
+
     return 0;
 }

@@ -23,7 +23,9 @@ public:
     }
 
     T getPublicKey(){
-        return setup.power(setup.getGenerator(), secret);
+        T privateKey = setup.power(setup.getGenerator(), secret);
+        //std::cout << privateKey << std::endl;
+        return privateKey;
     }
 
     void setKey(T a) {
@@ -49,7 +51,8 @@ public:
             std::cerr << "Encryption key not set.\n";
             return T();
         }
-        return m *= encryptionKey;
+        T result = m * encryptionKey;
+        return result;
     }
 
     T decrypt(T c){
@@ -57,7 +60,8 @@ public:
             std::cerr << "Encryption key not set.\n";
             return T();
         }
-        return c /= encryptionKey;
+        T result = c / encryptionKey;
+        return result;
     }
 };
 

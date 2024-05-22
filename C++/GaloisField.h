@@ -59,16 +59,83 @@ public:
         return GaloisField(mod(value - other.value, characteristic));
     }
 
-    GaloisField operator*(const GaloisField& other) const {
+/*    GaloisField operator*(const GaloisField& other) const {
         return GaloisField(mod(value * other.value, characteristic));
     }
+*/
 
-    GaloisField operator/(const GaloisField& other) const {
+    int multiplication(int a, int b) {
+        if (a == 0 || b == 0) {
+            return 0;
+        }
+
+        if (a == 1) {
+            return b;
+        }
+
+        if (b == 1){
+            return a;
+        } 
+
+        int res = multiplication(a, b / 2);
+
+        if ((b % 2) == 0) {
+            return (res + res) % characteristic;
+        } 
+        
+        return ((a % characteristic) + (res + res)) % characteristic;
+    }
+
+    GaloisField operator*(const GaloisField& obj) {
+        int res = multiplication(this->value, obj.value);
+        
+        return GaloisField(res);
+    }
+
+/*    GaloisField operator/(const GaloisField& other) const {
         if (other.value == 0) {
             throw std::invalid_argument("Division by zero");
         }
         unsigned long inverse = extendedEuclidean(other.value, characteristic);
         return GaloisField(mod(value * inverse, characteristic));
+    }
+*/
+
+    unsigned gcdExtended(unsigned a, unsigned b, unsigned* x, unsigned* y) {
+        if (a == 0) 
+        {
+            *x = 0, *y = 1;
+            return b;
+        }
+    
+        unsigned x1 = 1, y1 = 1;
+        unsigned gcd = gcdExtended(b % a, a, &x1, &y1);
+
+        *x = y1 - (b / a) * x1;
+        *y = x1;
+    
+        return gcd;
+    }
+
+    GaloisField findInverse(unsigned val) {
+        try {
+            unsigned x, y;
+            unsigned g = gcdExtended(val, characteristic, &x, &y);    
+            if (g != 1) {
+                throw std::runtime_error("Exception caused by findInverse");
+            } else {
+                return GaloisField(x);
+            }
+        } catch(const std::exception& e)     {
+            std::cerr << e.what() << '\n';
+        }
+
+        return GaloisField();     
+    }
+
+    GaloisField operator/(const GaloisField& obj) {
+        GaloisField res = findInverse(obj.value);
+        return (*this) * res;
     }
 
     bool operator==(const GaloisField& other) const {
