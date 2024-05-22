@@ -15,9 +15,6 @@ int main() {
     User<GaloisField> bob(setup);
     GaloisField publicKey2 = bob.getPublicKey();
 
-    //GaloisField message1 = GaloisField(2345);
-    //GaloisField message2 = GaloisField(167);
-
     std::cout << "Alice: \n";
     alice.setKey(publicKey2);
     std::cout << "Bob: \n";
@@ -32,15 +29,18 @@ int main() {
         std::cerr << "Keys do not match. Key1: " << key1 << ", Key2: " << key2 << std::endl;
     }
 
-/*    GaloisField encrypted1 = alice.encrypt(message1);
+/*    //GaloisField message1 = GaloisField(2345);
+    //GaloisField message2 = GaloisField(167);  
+
+    GaloisField encrypted1 = alice.encrypt(message1);
     GaloisField encrypted2 = bob.encrypt(message2);
-    std::cout << "encrypted: " << encrypted1 << "\n";
-    std::cout << "encrypted: " << encrypted2 << "\n";
+    std::cout << "encrypted1: " << encrypted1 << "\n";
+    std::cout << "encrypted2: " << encrypted2 << "\n";
 
     GaloisField decrypted1 = bob.decrypt(encrypted1);
     GaloisField decrypted2 = alice.decrypt(encrypted2);
-    std::cout << "decrypted: " << decrypted1 << "\n";
-    std::cout << "decrypted: " << decrypted2 << "\n";
+    std::cout << "decrypted1: " << decrypted1 << "\n";
+    std::cout << "decrypted2: " << decrypted2 << "\n";
 */
     return 0;
 }

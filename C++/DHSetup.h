@@ -11,7 +11,7 @@ class DHSetup{
 private:
     T generator;
     
-    bool isGenerator(const T& a, const std::vector<unsigned long>& primeFactors) const {
+    bool isGenerator(T a, std::vector<unsigned long>& primeFactors) {
         unsigned long p = T::getCharacteristic();
         for (unsigned long q : primeFactors) {
             if (power(a, (p - 1) / q) == T(1))
@@ -46,28 +46,32 @@ private:
 
 public:
     DHSetup() {
-        unsigned long characteristic = T::getCharacteristic();
-        std::cout << characteristic << std::endl;
+        T num;
+        unsigned long p = num.getCharacteristic();
+        //std::cout << p << std::endl;
         
-        std::vector<unsigned long> primes = findprimes(characteristic - 1); 
+        std::vector<unsigned long> primes = findprimes(p - 1); 
 
         std::random_device rd;
         std::mt19937 gen(rd());
         unsigned long generatorVal;
-        do {
-            generatorVal = std::uniform_int_distribution<unsigned long>(2, characteristic - 1)(gen);
-            generator = T(generatorVal);
-        } while (!isGenerator(generator, primes));
-        
+        while(true){
+            generatorVal = std::uniform_int_distribution<unsigned long>(1, p - 1)(gen);
+            num = T(generatorVal);
+            if(isGenerator(num, primes)){
+                break;
+            }
+        }
+        generator = num;
         std::cout << "Generator: " << generator << std::endl;
     }
 
     T getGenerator() const {
-        return generator;
+        return this->generator;
     }
 
     T power(T a, unsigned long b) const {
-        T result = T(1);
+        T result = 1;
         T base = a;
         while (b > 0) {
             if (b % 2 == 1) {
