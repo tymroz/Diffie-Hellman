@@ -13,11 +13,11 @@ def main():
     message1 = FiniteField()
     message2 = FiniteField()
 
-    print("user1 message: 432")
+    print("message1: 432")
     message1_input = int(432) 
     message1.setValue(message1_input)
 
-    print("user2 message: 92864")
+    print("message2: 92864")
     message2_input = int(92864)  
     message2.setValue(message2_input)
 
@@ -28,13 +28,13 @@ def main():
 
     encrypted1 = user1.encrypt(message1)
     encrypted2 = user2.encrypt(message2)
-    print("encrypted:", encrypted1)
-    print("encrypted:", encrypted2)
+    print("encrypted1:", encrypted1)
+    print("encrypted2:", encrypted2)
 
     decrypted1 = user2.decrypt(encrypted1)
     decrypted2 = user1.decrypt(encrypted2)
-    print("decrypted:", decrypted1)
-    print("decrypted:", decrypted2)
+    print("decrypted1:", decrypted1)
+    print("decrypted2:", decrypted2)
 
 if __name__ == "__main__":
     main()
