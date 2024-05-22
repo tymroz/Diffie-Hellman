@@ -7,28 +7,24 @@
 int main() {
     DHSetup<GaloisField> setup;
 
-    std::cout << "Alice: \n";
     User<GaloisField> alice(setup);
     GaloisField publicKey1 = alice.getPublicKey();
 
-    std::cout << "Bob: \n";
     User<GaloisField> bob(setup);
     GaloisField publicKey2 = bob.getPublicKey();
 
-    std::cout << "Alice: \n";
     alice.setKey(publicKey2);
-    std::cout << "Bob: \n";
     bob.setKey(publicKey1);
 
     GaloisField key1 = alice.getEncryptionKey();
     GaloisField key2 = bob.getEncryptionKey();
 
-    if (key1 == key2) {
+/*    if (key1 == key2) {
         std::cout << "Keys match: " << key1 << std::endl;
     } else {
         std::cerr << "Keys do not match. Key1: " << key1 << ", Key2: " << key2 << std::endl;
     }
-
+*/
     //std::cout << setup.power(GaloisField(123456789), 89);
 
     GaloisField message1 = GaloisField(2345);

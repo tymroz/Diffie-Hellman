@@ -64,7 +64,7 @@ public:
     }
 */
 
-    int multiplication(int a, int b) {
+    unsigned long multiplication(unsigned long a, unsigned long b) {
         if (a == 0 || b == 0) {
             return 0;
         }
@@ -77,7 +77,7 @@ public:
             return a;
         } 
 
-        int res = multiplication(a, b / 2);
+        unsigned long res = multiplication(a, b / 2);
 
         if ((b % 2) == 0) {
             return (res + res) % characteristic;
@@ -87,7 +87,7 @@ public:
     }
 
     GaloisField operator*(const GaloisField& obj) {
-        int res = multiplication(this->value, obj.value);
+        unsigned long res = multiplication(this->value, obj.value);
         
         return GaloisField(res);
     }
@@ -101,15 +101,15 @@ public:
     }
 */
 
-    unsigned gcdExtended(unsigned a, unsigned b, unsigned* x, unsigned* y) {
+    unsigned long gcdExtended(unsigned long a, unsigned long b, unsigned long* x, unsigned long* y) {
         if (a == 0) 
         {
             *x = 0, *y = 1;
             return b;
         }
     
-        unsigned x1 = 1, y1 = 1;
-        unsigned gcd = gcdExtended(b % a, a, &x1, &y1);
+        unsigned long x1 = 1, y1 = 1;
+        unsigned long gcd = gcdExtended(b % a, a, &x1, &y1);
 
         *x = y1 - (b / a) * x1;
         *y = x1;
@@ -117,10 +117,10 @@ public:
         return gcd;
     }
 
-    GaloisField findInverse(unsigned val) {
+    GaloisField findInverse(unsigned long val) {
         try {
-            unsigned x, y;
-            unsigned g = gcdExtended(val, characteristic, &x, &y);    
+            unsigned long x, y;
+            unsigned long g = gcdExtended(val, characteristic, &x, &y);    
             if (g != 1) {
                 throw std::runtime_error("Exception caused by findInverse");
             } else {

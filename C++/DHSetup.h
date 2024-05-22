@@ -63,7 +63,7 @@ public:
             }
         }
         generator = num;
-        std::cout << "Generator: " << generator << std::endl;
+        //std::cout << "Generator: " << generator << std::endl;
     }
 
     T getGenerator(){

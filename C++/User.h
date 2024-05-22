@@ -19,7 +19,7 @@ public:
         std::mt19937 gen(rd());
         std::uniform_int_distribution<unsigned long> dis(1, 100);
         secret = dis(gen);
-        std::cout << "Secret: " << secret << std::endl;
+        //std::cout << "Secret: " << secret << std::endl;
     }
 
     T getPublicKey(){
@@ -31,7 +31,7 @@ public:
     void setKey(T a) {
         if (!keySet) {
             encryptionKey = setup.power(a, secret);
-            std::cout << "Encryption: " << encryptionKey << std::endl;
+            //std::cout << "Encryption: " << encryptionKey << std::endl;
             keySet = true;
         } else {
             std::cerr << "Encryption key already set.\n";
