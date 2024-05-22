@@ -10,19 +10,19 @@ private:
 
     unsigned long value;
 
-    int mod(int a, int b) const {
+    unsigned long mod(unsigned long a, unsigned long b) const {
         return (a % b + b) % b;
     }
 
-    int extendedEuclidean(int a, int b) const {
-        int old_r = a, r = b;
-        int old_s = 1, s = 0;
-        int old_t = 0, t = 1;
+    unsigned long extendedEuclidean(unsigned long a, unsigned long b) const {
+        unsigned long old_r = a, r = b;
+        unsigned long old_s = 1, s = 0;
+        unsigned long old_t = 0, t = 1;
 
         while (r != 0) {
-            int quotient = old_r / r;
+            unsigned long quotient = old_r / r;
 
-            int temp = r;
+            unsigned long temp = r;
             r = old_r - quotient * r;
             old_r = temp;
 
@@ -41,13 +41,13 @@ private:
 public:
     GaloisField() : value(0) {}
 
-    GaloisField(int val) : value(mod(val, characteristic)) {}
+    GaloisField(unsigned long val) : value(mod(val, characteristic)) {}
 
-    int getValue() const {
+    unsigned long getValue() const {
         return value;
     }
 
-    static int getCharacteristic() {
+    static unsigned long getCharacteristic() {
         return characteristic;
     }
 
@@ -67,7 +67,7 @@ public:
         if (other.value == 0) {
             throw std::invalid_argument("Division by zero");
         }
-        int inverse = extendedEuclidean(other.value, characteristic);
+        unsigned long inverse = extendedEuclidean(other.value, characteristic);
         return GaloisField(mod(value * inverse, characteristic));
     }
 
@@ -121,7 +121,7 @@ public:
     }
 
     friend std::istream& operator>>(std::istream& is, GaloisField& finiteField) {
-        int val;
+        unsigned long val;
         is >> val;
         finiteField = GaloisField(val);
         return is;
