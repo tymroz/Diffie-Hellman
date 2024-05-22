@@ -11,7 +11,7 @@ class DHSetup{
 private:
     T generator;
     
-    bool isGenerator(T a, std::vector<unsigned long>& primeFactors) {
+    bool isGenerator(T a, std::vector<unsigned long> primeFactors) {
         unsigned long p = T::getCharacteristic();
         for (unsigned long q : primeFactors) {
             if (power(a, (p - 1) / q) == T(1))
