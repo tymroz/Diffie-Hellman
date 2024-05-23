@@ -71,10 +71,4 @@ public class DHSetup<T extends GaloisField> {
         }
         return result;
     }
-
-    public static void main(String[] args) {
-        GaloisField gf = new GaloisField();
-        DHSetup<GaloisField> dhSetup = new DHSetup<>(gf);
-        System.out.println("Generator: " + dhSetup.getGenerator());
-    }
 }

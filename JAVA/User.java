@@ -49,24 +49,4 @@ public class User<T extends GaloisField> {
         }
         return (T) c.divide(encryptionKey);
     }
-
-    public static void main(String[] args) {
-        GaloisField gf = new GaloisField();
-        DHSetup<GaloisField> dhSetup = new DHSetup<>(gf);
-        User<GaloisField> user = new User<>(dhSetup);
-
-        GaloisField publicKey = user.getPublicKey();
-        System.out.println("Public Key: " + publicKey);
-
-        user.setKey(publicKey);
-        GaloisField encryptionKey = user.getEncryptionKey();
-        System.out.println("Encryption Key: " + encryptionKey);
-
-        GaloisField message = new GaloisField(42);
-        GaloisField encryptedMessage = user.encrypt(message);
-        System.out.println("Encrypted Message: " + encryptedMessage);
-
-        GaloisField decryptedMessage = user.decrypt(encryptedMessage);
-        System.out.println("Decrypted Message: " + decryptedMessage);
-    }
 }
