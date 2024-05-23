@@ -1,5 +1,5 @@
 class GaloisField {
-    private static final long characteristic = 1234577;
+    private static final long characteristic = 1234567891;
     private long value;
 
     private long mod(long a, long b) {
