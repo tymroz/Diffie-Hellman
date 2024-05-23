@@ -2,7 +2,7 @@ class gfException(Exception):
     pass
 
 class FiniteField:
-    characteristic = 1234577
+    characteristic = 1234567891
     
     def __init__(self, value=0):
         self.setValue(value)
