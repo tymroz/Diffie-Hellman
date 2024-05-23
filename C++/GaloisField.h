@@ -14,30 +14,6 @@ private:
         return (a % b + b) % b;
     }
 
-    unsigned long extendedEuclidean(unsigned long a, unsigned long b) const {
-        unsigned long old_r = a, r = b;
-        unsigned long old_s = 1, s = 0;
-        unsigned long old_t = 0, t = 1;
-
-        while (r != 0) {
-            unsigned long quotient = old_r / r;
-
-            unsigned long temp = r;
-            r = old_r - quotient * r;
-            old_r = temp;
-
-            temp = s;
-            s = old_s - quotient * s;
-            old_s = temp;
-
-            temp = t;
-            t = old_t - quotient * t;
-            old_t = temp;
-        }
-
-        return mod(old_s, characteristic);
-    }
-
 public:
     GaloisField() : value(0) {}
 
@@ -58,11 +34,6 @@ public:
     GaloisField operator-(const GaloisField& other) const {
         return GaloisField(mod(value - other.value, characteristic));
     }
-
-/*    GaloisField operator*(const GaloisField& other) const {
-        return GaloisField(mod(value * other.value, characteristic));
-    }
-*/
 
     unsigned long multiplication(unsigned long a, unsigned long b) {
         if (a == 0 || b == 0) {
@@ -91,15 +62,6 @@ public:
         
         return GaloisField(res);
     }
-
-/*    GaloisField operator/(const GaloisField& other) const {
-        if (other.value == 0) {
-            throw std::invalid_argument("Division by zero");
-        }
-        unsigned long inverse = extendedEuclidean(other.value, characteristic);
-        return GaloisField(mod(value * inverse, characteristic));
-    }
-*/
 
     unsigned long gcdExtended(unsigned long a, unsigned long b, unsigned long* x, unsigned long* y) {
         if (a == 0) 
