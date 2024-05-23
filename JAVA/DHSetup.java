@@ -1,68 +1,80 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Supplier;
 
-public class DHSetup<T extends Field> {
-    private final T generator;
-    Supplier<T> cons;
-    public DHSetup(Supplier<T> cons) {
-        this.cons = cons;
+public class DHSetup<T extends GaloisField> {
+    private T generator;
 
-        T num = cons.get();
-        int p = num.getCharacteristic();
-        List<Integer> primes = findPrimes(p - 1);
+    private boolean isGenerator(T a, List<Long> primeFactors) {
+        long p = T.getCharacteristic();
+        for (long q : primeFactors) {
+            if (power(a, (p - 1) / q).equals(a.getOne())) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-        long exponent;
-        int ctr;
-        Random random = new Random();
-        do {
-            num.setValue(random.nextInt(p - 1));
+    private boolean isPrime(long n) {
+        if (n <= 1) return false;
+        if (n <= 3) return true;
+        if (n % 2 == 0 || n % 3 == 0) return false;
+        for (int i = 5; i * i <= n; i += 6) {
+            if (n % i == 0 || n % (i + 2) == 0) return false;
+        }
+        return true;
+    }
 
-            ctr = 0;
-            for (int i : primes) {
-                exponent = (p - 1) / i;
-
-                if (power(num, exponent).ifNotEqual(1)) {
-                    ctr++;
+    private List<Long> findPrimes(long n) {
+        List<Long> divisors = new ArrayList<>();
+        for (int i = 1; i * i <= n; ++i) {
+            if (n % i == 0) {
+                if (isPrime(i)) {
+                    divisors.add((long) i);
+                }
+                if (i != n / i && isPrime(n / i)) {
+                    divisors.add(n / i);
                 }
             }
-
-        } while (ctr != primes.size());
-
-        generator = num;
+        }
+        return divisors;
     }
 
-    private List<Integer> findPrimes(int num) {
-        List<Integer> primes = new ArrayList<>();
+    public DHSetup(T num) {
+        long p = num.getCharacteristic();
+        List<Long> primes = findPrimes(p - 1);
 
-        if(num % 2 == 0) {
-            primes.add(2);
-        }
-
-        for(int i = 3; i < Math.sqrt(num); i += 2) {
-
-            if (num % i == 0) {
-                primes.add(i);
+        Random rand = new Random();
+        T generatorVal;
+        while (true) {
+            int randomVal = 1 + rand.nextInt((int) (p - 1));
+            generatorVal = (T) num.createInstance(randomVal);
+            if (isGenerator(generatorVal, primes)) {
+                break;
             }
         }
-        return primes;
-    }
-
-    public T power(T a, long b) {
-        T res = cons.get();
-        res.setValue(1);
-        while(b > 0) {
-            if(b % 2 == 1) {
-                res.assign(res.mult(a));
-            }
-            a.assign(a.mult(a));
-            b = b / 2;
-        }
-        return res;
+        generator = generatorVal;
     }
 
     public T getGenerator() {
-        return generator;
+        return this.generator;
+    }
+
+    public T power(T a, long b) {
+        T result = (T) a.getOne();
+        while (b > 0) {
+            if (b % 2 == 1) {
+                result = (T) result.multiply(a);
+            }
+            a = (T) a.multiply(a);
+            b = b / 2;
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        GaloisField gf = new GaloisField();
+        DHSetup<GaloisField> dhSetup = new DHSetup<>(gf);
+        System.out.println("Generator: " + dhSetup.getGenerator());
     }
 }
