@@ -76,9 +76,3 @@ The output demonstrates:
 - **C++**: Requires a C++11 or later compatible compiler.
 - **Java**: Requires JDK 8 or later.
 - **Python**: Requires Python 3.6 or later.
-
-## License
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
-## Acknowledgments
-This project is a demonstration of the Diffie-Hellman key exchange protocol and is intended for educational purposes.
